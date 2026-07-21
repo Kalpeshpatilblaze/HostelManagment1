@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'slave-1'
+    }
 
     stages {
 
@@ -26,15 +28,6 @@ pipeline {
             steps {
                 sh 'cp target/*.war /opt/tomcat/webapps/'
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Application deployed successfully.'
-        }
-        failure {
-            echo 'Build failed.'
         }
     }
 }
