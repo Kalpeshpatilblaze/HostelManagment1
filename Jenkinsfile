@@ -6,7 +6,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'master',
-                    url: 'https://github.com/shubham93096/HostelManagment1.git'
+                    url: 'https://github.com/Kalpeshpatilblaze/HostelManagment1.git'
             }
         }
 
