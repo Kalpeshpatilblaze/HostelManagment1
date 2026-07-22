@@ -24,6 +24,23 @@ pipeline {
             }
         }
 
+        stage('Check Agent User') {
+            steps {
+              sh '''
+              echo "Current User:"
+              whoami
+
+              echo "User Details:"
+              id
+
+              echo "Docker Socket:"
+              ls -l /var/run/docker.sock
+
+              echo "Docker Test:"
+              docker ps
+              '''
+    }
+}
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t kalpuaggressive/hostelmanagement:v1 .'
