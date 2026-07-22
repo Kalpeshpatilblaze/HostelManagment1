@@ -26,21 +26,22 @@ pipeline {
 
         stage('Check Agent User') {
             steps {
-              sh '''
-              echo "Current User:"
-              whoami
+                sh '''
+                echo "Current User:"
+                whoami
 
-              echo "User Details:"
-              id
+                echo "User Details:"
+                id
 
-              echo "Docker Socket:"
-              ls -l /var/run/docker.sock
+                echo "Docker Socket:"
+                ls -l /var/run/docker.sock
 
-              echo "Docker Test:"
-              docker ps
-              '''
-    }
-}
+                echo "Docker Test:"
+                docker ps
+                '''
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t kalpuaggressive/hostelmanagement:v1 .'
@@ -50,12 +51,12 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-creds',
+                    credentialsId: 'test',
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
                     sh '''
-                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                     docker push kalpuaggressive/hostelmanagement:v1
                     docker logout
                     '''
