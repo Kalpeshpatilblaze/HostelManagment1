@@ -3,10 +3,6 @@ pipeline {
         label 'slave-1'
     }
 
-    tools {
-        maven 'Maven'
-    }
-
     stages {
 
         stage('Checkout') {
@@ -57,13 +53,13 @@ pipeline {
                 echo "User Details:"
                 id
 
-                echo "Docker Socket:"
-                ls -l /var/run/docker.sock
-
                 echo "Docker Version:"
                 docker --version
 
-                echo "Docker Test:"
+                echo "Docker Socket:"
+                ls -l /var/run/docker.sock
+
+                echo "Running Containers:"
                 docker ps
                 '''
             }
@@ -93,22 +89,24 @@ pipeline {
 
         stage('Deploy to Tomcat') {
             steps {
-                sh 'cp target/*.war /opt/tomcat/webapps/'
+                sh '''
+                cp target/*.war /opt/tomcat/webapps/
+                '''
             }
         }
     }
 
     post {
-        always {
-            cleanWs()
-        }
-
         success {
-            echo "Pipeline completed successfully."
+            echo 'Pipeline completed successfully.'
         }
 
         failure {
-            echo "Pipeline failed."
+            echo 'Pipeline failed.'
+        }
+
+        always {
+            cleanWs()
         }
     }
 }
