@@ -6,9 +6,9 @@ pipeline {
 
     environment {
 
-        IMAGE_NAME = "kalpuaggressive/hostelmanagement"
-        IMAGE_TAG  = "v1"
+        IMAGE_NAME = 'kalpuaggressive/hostelmanagement'
 
+        IMAGE_TAG = 'v1'
     }
 
     stages {
@@ -18,9 +18,10 @@ pipeline {
             steps {
 
                 git branch: 'master',
-                url: 'https://github.com/Kalpeshpatilblaze/HostelManagment1.git'
+                    url: 'https://github.com/Kalpeshpatilblaze/HostelManagment1.git'
 
             }
+
         }
 
         stage('Build') {
@@ -30,6 +31,7 @@ pipeline {
                 sh 'mvn clean package'
 
             }
+
         }
 
         stage('SonarQube Analysis') {
@@ -54,9 +56,9 @@ pipeline {
 
             steps {
 
-                timeout(time:5, unit:'MINUTES') {
+                timeout(time: 5, unit: 'MINUTES') {
 
-                    waitForQualityGate abortPipeline:true
+                    waitForQualityGate abortPipeline: true
 
                 }
 
@@ -64,23 +66,11 @@ pipeline {
 
         }
 
-        stage('Upload WAR to Nexus') {
+        stage('Deploy WAR to Nexus') {
 
             steps {
 
-                withCredentials([usernamePassword(
-                    credentialsId: 'nexus-cred',
-                    usernameVariable: 'NEXUS_USER',
-                    passwordVariable: 'NEXUS_PASS'
-                )]) {
-
-                    sh '''
-                    mvn deploy \
-                    -Dnexus.username=$NEXUS_USER \
-                    -Dnexus.password=$NEXUS_PASS
-                    '''
-
-                }
+                sh 'mvn deploy'
 
             }
 
@@ -90,8 +80,7 @@ pipeline {
 
             steps {
 
-                archiveArtifacts artifacts:'target/*.war',
-                fingerprint:true
+                archiveArtifacts artifacts: 'target/*.war', fingerprint: true
 
             }
 
@@ -104,8 +93,6 @@ pipeline {
                 sh '''
 
                 whoami
-
-                id
 
                 docker --version
 
@@ -122,7 +109,9 @@ pipeline {
             steps {
 
                 sh '''
+
                 docker build -t $IMAGE_NAME:$IMAGE_TAG .
+
                 '''
 
             }
@@ -135,11 +124,11 @@ pipeline {
 
                 withCredentials([usernamePassword(
 
-                    credentialsId:'dockerub-id',
+                        credentialsId: 'dockerub-id',
 
-                    usernameVariable:'DOCKER_USER',
+                        usernameVariable: 'DOCKER_USER',
 
-                    passwordVariable:'DOCKER_PASS'
+                        passwordVariable: 'DOCKER_PASS'
 
                 )]) {
 
@@ -179,13 +168,13 @@ pipeline {
 
         success {
 
-            echo "Pipeline Completed Successfully"
+            echo 'Pipeline Completed Successfully'
 
         }
 
         failure {
 
-            echo "Pipeline Failed"
+            echo 'Pipeline Failed'
 
         }
 
