@@ -3,6 +3,10 @@ pipeline {
         label 'slave-1'
     }
 
+    tools {
+        maven 'Maven'
+    }
+
     stages {
 
         stage('Checkout') {
@@ -15,6 +19,26 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'mvn clean package'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh '''
+                    mvn sonar:sonar \
+                    -Dsonar.projectKey=HostelManagement \
+                    -Dsonar.projectName=HostelManagement
+                    '''
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
             }
         }
 
@@ -35,6 +59,9 @@ pipeline {
 
                 echo "Docker Socket:"
                 ls -l /var/run/docker.sock
+
+                echo "Docker Version:"
+                docker --version
 
                 echo "Docker Test:"
                 docker ps
@@ -68,6 +95,20 @@ pipeline {
             steps {
                 sh 'cp target/*.war /opt/tomcat/webapps/'
             }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+
+        success {
+            echo "Pipeline completed successfully."
+        }
+
+        failure {
+            echo "Pipeline failed."
         }
     }
 }
