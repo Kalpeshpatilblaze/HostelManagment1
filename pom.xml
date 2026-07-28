@@ -6,64 +6,49 @@
     <modelVersion>4.0.0</modelVersion>
 
 
-    <!-- Project Information -->
+    <groupId>com.smarthostel</groupId>
 
-    <groupId>com.smarthost</groupId>
+    <artifactId>HostelManagementSystem</artifactId>
 
-    <artifactId>employee-portal</artifactId>
+    <!-- SNAPSHOT will deploy to maven-snapshots-1 -->
+    <!-- Change to 1.0 for release deployment -->
 
-    <!-- SNAPSHOT will upload to maven-snapshots-1 -->
-    <!-- Change to 1.0 for release upload -->
-
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <packaging>war</packaging>
 
 
-    <name>Employee Portal Application</name>
-
-    <description>
-        Employee Portal Maven Web Application
-    </description>
+    <name>HostelManagementSystem</name>
 
 
-
-    <!-- Java Version -->
 
     <properties>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <maven.compiler.source>17</maven.compiler.source>
 
         <maven.compiler.target>17</maven.compiler.target>
 
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- SonarQube Configuration -->
+
+        <sonar.projectKey>HostelManagement</sonar.projectKey>
+
+        <sonar.projectName>HostelManagement</sonar.projectName>
+
 
     </properties>
 
 
 
-    <!-- Nexus Deployment Configuration -->
+
+    <!-- Nexus Repository Configuration -->
 
     <distributionManagement>
 
 
-        <!-- Release Repository -->
-
-        <repository>
-
-            <id>nexus-releases</id>
-
-            <name>Nexus Release Repository</name>
-
-            <url>
-                http://<NEXUS_SERVER_IP>:8081/repository/maven-releases/
-            </url>
-
-        </repository>
-
-
-
-        <!-- Snapshot Repository -->
+        <!-- SNAPSHOT Repository -->
 
         <snapshotRepository>
 
@@ -72,87 +57,34 @@
             <name>Nexus Snapshot Repository</name>
 
             <url>
-                http://<NEXUS_SERVER_IP>:8081/repository/maven-snapshots-1/
+                http://100.31.42.86:8081/repository/maven-snapshots-1/
             </url>
 
         </snapshotRepository>
+
+
+
+        <!-- RELEASE Repository -->
+
+        <repository>
+
+            <id>nexus-releases</id>
+
+            <name>Nexus Release Repository</name>
+
+            <url>
+                http://100.31.42.86:8081/repository/maven-releases/
+            </url>
+
+        </repository>
 
 
     </distributionManagement>
 
 
 
-    <!-- Build Configuration -->
-
-    <build>
-
-        <finalName>employee-portal</finalName>
-
-
-        <plugins>
-
-
-            <!-- Create WAR file -->
-
-            <plugin>
-
-                <groupId>org.apache.maven.plugins</groupId>
-
-                <artifactId>maven-war-plugin</artifactId>
-
-                <version>3.4.0</version>
-
-            </plugin>
-
-
-
-            <!-- Compiler Plugin -->
-
-            <plugin>
-
-                <groupId>org.apache.maven.plugins</groupId>
-
-                <artifactId>maven-compiler-plugin</artifactId>
-
-                <version>3.13.0</version>
-
-                <configuration>
-
-                    <source>17</source>
-
-                    <target>17</target>
-
-                </configuration>
-
-            </plugin>
-
-
-        </plugins>
-
-
-    </build>
-
-
-
-    <!-- Dependencies -->
 
     <dependencies>
-
-
-        <!-- Servlet API for JSP/Web Application -->
-
-        <dependency>
-
-            <groupId>jakarta.servlet</groupId>
-
-            <artifactId>jakarta.servlet-api</artifactId>
-
-            <version>6.1.0</version>
-
-            <scope>provided</scope>
-
-        </dependency>
-
 
 
         <!-- JUnit Testing -->
@@ -163,14 +95,120 @@
 
             <artifactId>junit</artifactId>
 
-            <version>4.13.2</version>
+            <version>3.8.1</version>
 
             <scope>test</scope>
 
         </dependency>
 
 
+
+        <!-- Servlet API -->
+
+        <dependency>
+
+            <groupId>javax.servlet</groupId>
+
+            <artifactId>javax.servlet-api</artifactId>
+
+            <version>4.0.1</version>
+
+            <scope>provided</scope>
+
+        </dependency>
+
+
+
+        <!-- MySQL Connector -->
+
+        <dependency>
+
+            <groupId>com.mysql</groupId>
+
+            <artifactId>mysql-connector-j</artifactId>
+
+            <version>8.0.33</version>
+
+        </dependency>
+
+
     </dependencies>
+
+
+
+
+    <build>
+
+
+        <finalName>HostelManagementSystem</finalName>
+
+
+
+        <plugins>
+
+
+
+            <!-- Java Compiler -->
+
+            <plugin>
+
+                <groupId>org.apache.maven.plugins</groupId>
+
+                <artifactId>maven-compiler-plugin</artifactId>
+
+                <version>3.11.0</version>
+
+
+                <configuration>
+
+                    <source>17</source>
+
+                    <target>17</target>
+
+                </configuration>
+
+
+            </plugin>
+
+
+
+
+            <!-- WAR Packaging -->
+
+            <plugin>
+
+                <groupId>org.apache.maven.plugins</groupId>
+
+                <artifactId>maven-war-plugin</artifactId>
+
+                <version>3.4.0</version>
+
+
+            </plugin>
+
+
+
+
+            <!-- SonarQube Scanner -->
+
+            <plugin>
+
+                <groupId>org.sonarsource.scanner.maven</groupId>
+
+                <artifactId>sonar-maven-plugin</artifactId>
+
+                <version>5.2.0.4988</version>
+
+
+            </plugin>
+
+
+
+        </plugins>
+
+
+    </build>
+
 
 
 </project>
