@@ -10,16 +10,12 @@
 
     <artifactId>HostelManagementSystem</artifactId>
 
-    <!-- SNAPSHOT will deploy to maven-snapshots-1 -->
-    <!-- Change to 1.0 for release deployment -->
-
     <version>0.0.1-SNAPSHOT</version>
 
     <packaging>war</packaging>
 
 
     <name>HostelManagementSystem</name>
-
 
 
     <properties>
@@ -31,7 +27,7 @@
         <maven.compiler.target>17</maven.compiler.target>
 
 
-        <!-- SonarQube Configuration -->
+        <!-- SonarQube -->
 
         <sonar.projectKey>HostelManagement</sonar.projectKey>
 
@@ -42,13 +38,12 @@
 
 
 
-
-    <!-- Nexus Repository Configuration -->
+    <!-- Nexus Configuration -->
 
     <distributionManagement>
 
 
-        <!-- SNAPSHOT Repository -->
+        <!-- Snapshot Repository -->
 
         <snapshotRepository>
 
@@ -64,7 +59,7 @@
 
 
 
-        <!-- RELEASE Repository -->
+        <!-- Release Repository -->
 
         <repository>
 
@@ -73,7 +68,7 @@
             <name>Nexus Release Repository</name>
 
             <url>
-                http://100.31.42.86:8081/repository/maven-releases/
+                http://100.31.42.86:8081/repository/maven-release-1/
             </url>
 
         </repository>
@@ -87,7 +82,7 @@
     <dependencies>
 
 
-        <!-- JUnit Testing -->
+        <!-- JUnit -->
 
         <dependency>
 
@@ -147,8 +142,7 @@
         <plugins>
 
 
-
-            <!-- Java Compiler -->
+            <!-- Maven Compiler -->
 
             <plugin>
 
@@ -157,7 +151,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
 
                 <version>3.11.0</version>
-
 
                 <configuration>
 
@@ -173,7 +166,7 @@
 
 
 
-            <!-- WAR Packaging -->
+            <!-- WAR Plugin -->
 
             <plugin>
 
@@ -189,7 +182,7 @@
 
 
 
-            <!-- SonarQube Scanner -->
+            <!-- Sonar Maven Plugin -->
 
             <plugin>
 
@@ -203,12 +196,10 @@
             </plugin>
 
 
-
         </plugins>
 
 
     </build>
-
 
 
 </project>
